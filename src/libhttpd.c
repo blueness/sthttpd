@@ -201,23 +201,16 @@ check_options( void )
 
 static void
 free_httpd_server( httpd_server* hs )
-    {
-    if ( hs->binding_hostname != (char*) 0 )
-	free( (void*) hs->binding_hostname );
-    if ( hs->cwd != (char*) 0 )
-	free( (void*) hs->cwd );
-    if ( hs->cgi_pattern != (char*) 0 )
-	free( (void*) hs->cgi_pattern );
-    if ( hs->charset != (char*) 0 )
-	free( (void*) hs->charset );
-    if ( hs->p3p != (char*) 0 )
-	free( (void*) hs->p3p );
-    if ( hs->url_pattern != (char*) 0 )
-	free( (void*) hs->url_pattern );
-    if ( hs->local_pattern != (char*) 0 )
-	free( (void*) hs->local_pattern );
-    free( (void*) hs );
-    }
+{
+    free(hs->binding_hostname);
+    free(hs->cwd);
+    free(hs->cgi_pattern);
+    free(hs->charset);
+    free(hs->p3p);
+    free(hs->url_pattern);
+    free(hs->local_pattern);
+    free(hs);
+}
 
 
 httpd_server*
@@ -2464,28 +2457,27 @@ httpd_close_conn( httpd_conn* hc, struct timeval* nowP )
 
 void
 httpd_destroy_conn( httpd_conn* hc )
-    {
-    if ( hc->initialized )
-	{
-	free( (void*) hc->read_buf );
-	free( (void*) hc->decodedurl );
-	free( (void*) hc->origfilename );
-	free( (void*) hc->expnfilename );
-	free( (void*) hc->encodings );
-	free( (void*) hc->pathinfo );
-	free( (void*) hc->query );
-	free( (void*) hc->accept );
-	free( (void*) hc->accepte );
-	free( (void*) hc->reqhost );
-	free( (void*) hc->hostdir );
-	free( (void*) hc->remoteuser );
-	free( (void*) hc->response );
+{
+    if (hc->initialized) {
+	free(hc->read_buf);
+	free(hc->decodedurl);
+	free(hc->origfilename);
+	free(hc->expnfilename);
+	free(hc->encodings);
+	free(hc->pathinfo);
+	free(hc->query);
+	free(hc->accept);
+	free(hc->accepte);
+	free(hc->reqhost);
+	free(hc->hostdir);
+	free(hc->remoteuser);
+	free(hc->response);
 #ifdef TILDE_MAP_2
-	free( (void*) hc->altdir );
+	free(hc->altdir);
 #endif /* TILDE_MAP_2 */
 	hc->initialized = 0;
-	}
     }
+}
 
 
 struct mime_entry {

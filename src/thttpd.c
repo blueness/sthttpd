@@ -1477,7 +1477,7 @@ shut_down( void )
 	if ( connects[cnum].hc != (httpd_conn*) 0 )
 	    {
 	    httpd_destroy_conn( connects[cnum].hc );
-	    free( (void*) connects[cnum].hc );
+	    free(connects[cnum].hc);
 	    --httpd_conn_count;
 	    connects[cnum].hc = (httpd_conn*) 0;
 	    }
@@ -1494,9 +1494,9 @@ shut_down( void )
 	}
     mmc_destroy();
     tmr_destroy();
-    free( (void*) connects );
+    free(connects);
     if ( throttles != (throttletab*) 0 )
-	free( (void*) throttles );
+	free(throttles);
     }
 
 
