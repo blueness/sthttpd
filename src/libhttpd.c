@@ -2410,7 +2410,7 @@ de_dotdot( char* file )
     while ( strncmp( file, "./", 2 ) == 0 )
 	(void) memmove( file, file + 2, strlen( file ) - 1 );
     while ( ( cp = strstr( file, "/./") ) != (char*) 0 )
-	(void) memmove( cp, cp + 2, strlen( file ) - 1 );
+	(void) memmove( cp, cp + 2, strlen( cp ) - 1 );
 
     /* Alternate between removing leading ../ and removing xxx/../ */
     for (;;)
