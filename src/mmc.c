@@ -39,9 +39,7 @@
 #include <syslog.h>
 #include <errno.h>
 
-#ifdef HAVE_MMAP
 #include <sys/mman.h>
-#endif /* HAVE_MMAP */
 
 //local hdeaders
 #include <libhttpd.h>
@@ -193,7 +191,6 @@ mmc_map( char* filename, struct stat* sbP, struct timeval* nowP )
     else
 	{
 	size_t size_size = (size_t) m->size;	/* loses on files >2GB */
-#ifdef HAVE_MMAP
 	/* Map the file into memory. */
 	m->addr = mmap( 0, size_size, PROT_READ, MAP_PRIVATE, fd, 0 );
 	if ( m->addr == (void*) -1 && errno == ENOMEM )
@@ -212,34 +209,6 @@ mmc_map( char* filename, struct stat* sbP, struct timeval* nowP )
 	    --alloc_count;
 	    return (void*) 0;
 	    }
-#else /* HAVE_MMAP */
-	/* Read the file into memory. */
-	m->addr = (void*) malloc( size_size );
-	if ( m->addr == (void*) 0 )
-	    {
-	    /* Ooo, out of memory.  Free all unreferenced maps
-	    ** and try again.
-	    */
-	    panic();
-	    m->addr = (void*) malloc( size_size );
-	    }
-	if ( m->addr == (void*) 0 )
-	    {
-	    syslog( LOG_ERR, "out of memory storing a file" );
-	    (void) close( fd );
-	    free(m);
-	    --alloc_count;
-	    return (void*) 0;
-	    }
-	if ( httpd_read_fully( fd, m->addr, size_size ) != size_size )
-	    {
-	    syslog( LOG_ERR, "read - %m" );
-	    (void) close( fd );
-	    free(m);
-	    --alloc_count;
-	    return (void*) 0;
-	    }
-#endif /* HAVE_MMAP */
 	}
     (void) close( fd );
 
@@ -370,12 +339,8 @@ really_unmap( Map** mm )
     m = *mm;
     if ( m->size != 0 )
 	{
-#ifdef HAVE_MMAP
 	if ( munmap( m->addr, m->size ) < 0 )
 	    syslog( LOG_ERR, "munmap - %m" );
-#else /* HAVE_MMAP */
-	free(m->addr);
-#endif /* HAVE_MMAP */
 	}
     /* Update the total byte count. */
     mapped_bytes -= m->size;
