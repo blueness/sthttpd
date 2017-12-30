@@ -27,14 +27,12 @@
 
 #include <config.h>
 
-//system headers
 #include <stdlib.h>
 #include <stdio.h>
 #include <syslog.h>
 #include <sys/types.h>
 
-//local headers
-#include <timers.h>
+#include "timers.h"
 
 
 #define HASH_SIZE 67

@@ -28,7 +28,6 @@
 
 #include <config.h>
 
-//system headers
 #include <sys/types.h>
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -71,14 +70,13 @@
 
 extern char* crypt( const char* key, const char* setting );
 
-//local headers
-#include <libhttpd.h>
-#include <match.h>
-#include <mmc.h>
-#include <tdate_parse.h>
-#include <thttpd.h>
-#include <timers.h>
-#include <version.h>
+#include "libhttpd.h"
+#include "match.h"
+#include "mmc.h"
+#include "tdate_parse.h"
+#include "thttpd.h"
+#include "timers.h"
+#include "version.h"
 
 #ifdef SHOW_SERVER_VERSION
 #define EXPOSED_SERVER_SOFTWARE SERVER_SOFTWARE
