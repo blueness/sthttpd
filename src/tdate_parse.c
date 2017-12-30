@@ -31,7 +31,6 @@
 
 #include <config.h>
 
-//system headers
 #include <ctype.h>
 #ifdef HAVE_MEMORY_H
 #include <memory.h>
@@ -42,8 +41,7 @@
 #include <sys/types.h>
 #include <time.h>
 
-//local headers
-#include <tdate_parse.h>
+#include "tdate_parse.h"
 
 
 struct strlong {
