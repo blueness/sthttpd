@@ -1,3 +1,6 @@
+
+AM_CPPFLAGS = $(APPARMOR_CFLAGS)
+
 sbin_PROGRAMS = thttpd
 thttpd_SOURCES = thttpd.c thttpd.h \
 	fdwatch.c fdwatch.h \
@@ -6,7 +9,7 @@ thttpd_SOURCES = thttpd.c thttpd.h \
 	timers.c timers.h \
 	tdate_parse.c tdate_parse.h \
 	mime_encodings.h mime_types.h version.h
-thttpd_LDADD = libmatch.a
+thttpd_LDADD = libmatch.a $(APPARMOR_LIBS)
 
 noinst_LIBRARIES = libmatch.a
 libmatch_a_SOURCES = match.c match.h
