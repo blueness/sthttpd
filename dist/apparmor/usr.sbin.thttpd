@@ -1,0 +1,30 @@
+include <tunables/kernelvars>
+include <tunables/multiarch>
+include <tunables/proc>
+include <tunables/sys>
+include <tunables/home>
+
+/usr/sbin/thttpd {
+	include <abstractions/nameservice>
+	include <abstractions/base>
+	include <abstractions/apparmor_api/change_profile>
+	include <abstractions/apparmor_api/is_enabled>
+
+	capability setuid setgid,
+	capability sys_chroot,
+	capability fsetid chown fowner dac_override,
+	
+	/etc/thttpd/thttpd.conf r,
+	/var/log/thttpd.log rw,
+	/run/thttpd.pid rw,
+	/run/	rw,
+	change_profile -> thttpd_confined,
+
+	profile ^thttpd_confined {
+		/var/www/** rpx,
+		/var/log/thttpd.log w,
+	}
+
+}
+
+
