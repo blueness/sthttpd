@@ -59,6 +59,10 @@
 #include <timers.h>
 #include <version.h>
 
+#ifdef HAVE_APPARMOR
+#include <sys/apparmor.h>
+#endif
+
 #ifndef SHUT_WR
 #define SHUT_WR 1
 #endif
@@ -713,6 +717,20 @@ main( int argc, char** argv )
 		LOG_WARNING,
 		"started as root without requesting chroot(), warning only" );
 	}
+
+    /* Drop to another profile after binding to stuff */
+#ifdef HAVE_APPARMOR
+    if ( aa_is_enabled() )
+        {
+        if( aa_change_profile( "thttpd_confined" ) < 0 )
+            {
+	    syslog(
+		LOG_WARNING,
+		"could not change the AppArmor profile - %m" );
+            perror("aa_change_profile ");
+            }
+        }
+#endif
 
     /* Initialize our connections table. */
     connects = NEW( connecttab, max_connects );
