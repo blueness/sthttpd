@@ -28,6 +28,10 @@
 
 #include <config.h>
 
+#ifdef HAVE_SIGSET
+#define _GNU_SOURCE
+#endif
+
 //system headers
 #include <sys/param.h>
 #include <sys/types.h>
